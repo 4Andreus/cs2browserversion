@@ -1,0 +1,440 @@
+/* ==========================================================================
+   1. ЗАГАЛЬНІ СТИЛІ ТА СКИДАННЯ НАЛАШТУВАНЬ
+   ========================================================================== */
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: 'Arial Black', sans-serif;
+    background: #14191e;
+    color: #fff;
+}
+
+/* ==========================================================================
+   2. ЕКРАНИ МЕНЮ ТА НАВІГАЦІЯ
+   ========================================================================== */
+.screen {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: radial-gradient(circle, #232b35 0%, #0f1318 100%);
+    z-index: 10;
+}
+
+.hidden { 
+    display: none !important; 
+}
+
+h1 {
+    color: #de9b35;
+    text-shadow: 0 0 10px rgba(222, 155, 53, 0.5);
+    font-size: 48px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.menu-balance {
+    margin-top: 20px;
+    color: #de9b35;
+    font-size: 20px;
+}
+
+.shop-balance-box {
+    font-size: 24px;
+    color: #00ff00;
+    margin-bottom: 25px;
+    background: rgba(0, 0, 0, 0.3);
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #00ff00;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.3);
+}
+
+/* ==========================================================================
+   3. КНОПКИ
+   ========================================================================== */
+.btn {
+    background: #de9b35;
+    color: #000;
+    border: none;
+    padding: 15px 40px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 10px;
+    min-width: 250px;
+    transition: 0.2s ease-in-out;
+    border-radius: 4px;
+}
+
+.btn:hover {
+    background: #fff;
+    box-shadow: 0 0 15px #de9b35;
+}
+
+.btn:disabled {
+    background: #444;
+    color: #888;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+.btn-back {
+    background: #555;
+    color: #fff;
+    margin-top: 20px;
+}
+
+.btn-back:hover {
+    background: #777;
+    box-shadow: 0 0 10px #fff;
+}
+
+/* ==========================================================================
+   4. СІТКА ТА КАРТКИ КЕЙСІВ ТА СКІНІВ
+   ========================================================================== */
+.grid {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    justify-content: center; 
+    align-items: center;     
+    width: 100%;
+    max-width: 800px;
+}
+
+.card {
+    background: rgba(0, 0, 0, 0.5);
+    border: 2px solid #de9b35;
+    padding: 25px;
+    text-align: center;
+    border-radius: 8px;
+    width: 220px;            
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;     
+}
+
+/* Картинка кейсу в меню вибору */
+.card-case-image {
+    width: 150px;
+    height: auto;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    margin: 0 0 10px 0;
+    font-size: 22px;
+}
+
+.card p {
+    margin: 0 0 15px 0;
+    color: #ccc;
+}
+
+.card .btn {
+    width: 100%;             
+    min-width: auto;
+    margin: 5px 0 0 0;       
+    padding: 12px 20px;
+    font-size: 16px;
+}
+
+/* Елементи інвентарю */
+.skin-item {
+    padding: 10px;
+    margin: 5px;
+    border-radius: 4px;
+    font-size: 14px;
+    text-align: center;
+    width: 160px;
+}
+
+/* Картинка скіна в інвентарі */
+.skin-item-image {
+    width: 120px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* ==========================================================================
+   5. ГОРИЗОНТАЛЬНА РУЛЕТКА (З КАРТИНКАМИ)
+   ========================================================================== */
+.roulette-container {
+    position: relative;
+    width: 600px;
+    height: 180px; /* Трохи збільшили висоту, щоб влізли картинки */
+    border: 3px solid #de9b35;
+    background: rgba(0, 0, 0, 0.6);
+    margin: 20px 0;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+.roulette-marker {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 4px;
+    height: 100%;
+    background: #ff4500;
+    transform: translateX(-50%);
+    z-index: 12;
+    box-shadow: 0 0 10px #ff4500;
+}
+
+.roulette-track {
+    display: flex;
+    position: absolute;
+    top: 15px;
+    left: 0;
+    height: 150px;
+    transition: transform 4s cubic-bezier(0.1, 0.8, 0.1, 1);
+    will-change: transform;
+}
+
+.roulette-item {
+    min-width: 140px; /* Збільшили ширину елемента */
+    max-width: 140px;
+    height: 150px;
+    margin: 0 5px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end; /* Текст внизу, картинка зверху */
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 4px;
+    font-size: 11px;
+    text-align: center;
+    font-family: sans-serif;
+    box-sizing: border-box;
+    border-bottom: 5px solid #fff;
+    padding-bottom: 10px;
+}
+
+/* Зображення скіна всередині рулетки */
+.roulette-skin-image {
+    width: 110px;
+    height: auto;
+    margin-bottom: auto; /* Картинка притискається до верху */
+    margin-top: 10px;
+}
+
+/* ==========================================================================
+   6. ІНТЕРФЕЙС 3D МАТЧУ
+   ========================================================================== */
+#match-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+#hud {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    font-size: 24px;
+    z-index: 5;
+    pointer-events: none;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+#crosshair {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    transform: translate(-50%, -50%);
+    border: 2px solid #00ff00;
+    border-radius: 50%;
+    z-index: 5;
+    pointer-events: none;
+}
+
+#instructions {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-align: center;
+    z-index: 5;
+    font-size: 14px;
+    line-height: 1.5;
+    pointer-events: none;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#canvas-container {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+/* ==========================================================================
+   7. СТИЛІ ЕКРАНА ВИГРАШУ (З КАРТИНКОЮ)
+   ========================================================================== */
+.win-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(8, 10, 14, 0.93);
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.glow-rays {
+    position: absolute;
+    width: 170vh;
+    height: 170vh;
+    z-index: 21;
+    pointer-events: none;
+    transform-origin: center center;
+    mix-blend-mode: screen;
+    background: conic-gradient(from 0deg, transparent 0deg 20deg, rgba(255, 204, 0, 0.4) 20deg 40deg, transparent 40deg 60deg, rgba(255, 204, 0, 0.4) 60deg 80deg, transparent 80deg 100deg, rgba(255, 204, 0, 0.4) 100deg 120deg, transparent 120deg 140deg, rgba(255, 204, 0, 0.4) 140deg 160deg, transparent 160deg 180deg, rgba(255, 204, 0, 0.4) 180deg 200deg, transparent 200deg 220deg, rgba(255, 204, 0, 0.4) 220deg 240deg, transparent 240deg 260deg, rgba(255, 204, 0, 0.4) 260deg 280deg, transparent 280deg 300deg, rgba(255, 204, 0, 0.4) 300deg 320deg, transparent 320deg 340deg, rgba(255, 204, 0, 0.4) 340deg 360deg);
+    mask-image: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0) 70%);
+    -webkit-mask-image: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(255,255,255,0.5) 30%, rgba(255,255,255,0) 70%);
+}
+
+.ray-layer-1 { animation: chaoticPulse1 1.4s ease-in-out infinite alternate; }
+.ray-layer-2 { transform: rotate(40deg); animation: chaoticPulse2 1.9s ease-in-out infinite alternate; }
+
+@keyframes chaoticPulse1 { 0% { transform: scale(0.85) rotate(0deg); opacity: 0.4; } 100% { transform: scale(1.35) rotate(5deg); opacity: 0.9; } }
+@keyframes chaoticPulse2 { 0% { transform: scale(1.3) rotate(40deg); opacity: 0.8; } 100% { transform: scale(0.9) rotate(35deg); opacity: 0.4; } }
+
+.win-card {
+    position: relative;
+    z-index: 22;
+    background: radial-gradient(circle, #1a2029 0%, #080a0d 100%);
+    border: 3px solid #de9b35;
+    padding: 40px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 0 50px rgba(222, 155, 53, 0.4);
+    min-width: 320px;
+    animation: scaleUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes scaleUp { from { transform: scale(0.7); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+.win-title { color: #fff; font-size: 20px; margin-bottom: 20px; letter-spacing: 2px; }
+
+/* Картинка скіна у вікні виграшу */
+.win-skin-image {
+    width: 250px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.win-skin-name { font-size: 28px; margin-bottom: 30px; text-shadow: 0 0 10px rgba(255, 255, 255, 0.3); }
+
+.win-card .btn { margin: 0; width: 100%; }
+
+/* ==========================================================================
+   8. СПЛИВАЮЧЕ ВІКНО СКІНІВ (TOOLTIP)
+   ========================================================================== */
+.case-tooltip {
+    position: fixed;
+    pointer-events: none;
+    background: rgba(15, 19, 24, 0.95);
+    border: 2px solid #de9b35;
+    padding: 15px;
+    border-radius: 6px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.7);
+    z-index: 100;
+    display: none;
+    min-width: 280px; /* Збільшили, щоб помістилися назви рідкостей */
+    animation: fadeIn 0.15s ease-out;
+}
+
+.case-tooltip h4 {
+    margin: 0 0 10px 0;
+    color: #fff;
+    font-size: 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    padding-bottom: 5px;
+    text-transform: uppercase;
+}
+
+.tooltip-skin-item {
+    font-size: 14px;
+    margin: 4px 0;
+    font-family: sans-serif;
+    font-weight: bold;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+#case-selection-zone {
+    display: flex;
+    flex-direction: row;       /* Вишиковує елементи в рядок */
+    justify-content: center;   /* Центрує весь рядок (Prisma буде чітко по центру) */
+    align-items: center;       /* Вирівнює картки по вертикалі */
+    gap: 20px;                 /* Відступ між картками кейсів */
+    flex-wrap: nowrap;         /* ЗАБОРОНЯЄ перенесення на новий рядок */
+}
+
+/* ==========================================================================
+   НАЛАШТУВАННЯ СІТКИ ІНВЕНТАРЮ (6 СКІНІВ В РЯДОК)
+   ========================================================================== */
+
+/* Контейнер, де лежать всі картки скінів */
+#inventory-list {
+    display: flex !important;
+    flex-wrap: wrap !important;      /* Дозволяємо перенос, якщо скінів більше 6 */
+    flex-direction: row !important;
+    justify-content: flex-start !important; /* Рівняємо по лівому краю */
+    gap: 15px !important;            /* Відступи між картками */
+    width: 100% !important;
+    max-width: 1100px !important;    /* Обмежуємо максимальну ширину, щоб сітка не розповзалася */
+    margin: 0 auto !important;       /* Центруємо весь блок інвентарю на екрані */
+    padding: 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* Самі картки всередині інвентарю */
+#inventory-list .card {
+    /* Розраховуємо ширину: 6 карток і 5 проміжків (gap) між ними */
+    width: calc((100% - (15px * 5)) / 6) !important;
+    min-width: 140px !important;     /* Захист від того, щоб картки не стискалися в кашу на маленьких екранах */
+    box-sizing: border-box !important;
+    flex-grow: 0 !important;         /* Забороняємо карткам розтягуватися більше, ніж треба */
+    flex-shrink: 0 !important;       /* Забороняємо їм занадто сильно стискатися */
+}
+
+/* Адаптуємо картинки зброї під новий розмір карток */
+#inventory-list .skin-item-image {
+    width: 100% !important;
+    height: auto !important;
+    max-height: 90px !important;
+    object-fit: contain !important;
+}
+

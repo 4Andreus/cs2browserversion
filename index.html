@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>CS2 JS Edition: Pro Версія</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="menu-screen" class="screen">
+        <h1>CS2 JAVASCRIPT EDITION</h1>
+        <button class="btn" onclick="start3DMatch()">УВІЙТИ В МАТЧ (3D)</button>
+        <button class="btn" onclick="showScreen('case-screen')">МАГАЗИН КЕЙСІВ</button>
+        <button class="btn" onclick="showScreen('inventory-screen')">ІНВЕНТАР ЗБРОЇ</button>
+        <div class="menu-balance">Баланс: $<span class="global-balance">500</span></div>
+    </div>
+
+    <div id="case-screen" class="screen hidden">
+        <h1>МАГАЗИН КЕЙСІВ</h1>
+        <div class="shop-balance-box">Твій баланс: $<span class="global-balance">500</span></div>
+
+        <div id="case-selection-zone" class="grid">
+            </div>
+
+        <div id="case-opening-zone" class="hidden" style="display: flex; flex-direction: column; align-items: center;">
+            <h2 id="current-opening-case-title" style="color: #de9b35; margin-bottom: 5px;">Case Name</h2>
+            <p id="current-opening-case-price" style="color: #ccc; margin-bottom: 20px;">Ціна: $</p>
+            
+            <div class="roulette-container">
+                <div class="roulette-marker"></div>
+                <div id="roulette-track" class="roulette-track"></div>
+            </div>
+
+            <button class="btn" id="buy-case-btn" onclick="buyCase()">Купити & Відкрити</button>
+            <button class="btn btn-back" onclick="backToCaseSelection()">Назад до вибору</button>
+        </div>
+
+        <button id="case-main-back-btn" class="btn btn-back" onclick="showScreen('menu-screen')">Назад до меню</button>
+    </div>
+
+    <div id="inventory-screen" class="screen hidden">
+        <h1>ТВІЙ ІНВЕНТАР</h1>
+        <div id="inventory-list" class="grid"></div>
+        <button class="btn btn-back" onclick="showScreen('menu-screen')">Назад</button>
+    </div>
+
+    <div id="match-container" class="hidden">
+        <div id="hud">
+            <div>Супротивники: <span id="enemies-left">5</span></div>
+            <div>Зброя: <span id="current-weapon">Glock-18</span></div>
+            <button class="btn btn-back" style="pointer-events: auto; min-width: auto; padding: 5px 15px;" onclick="exitMatch()">Вийти</button>
+        </div>
+        <div id="crosshair"></div>
+        <div id="instructions">
+            <strong>Управління:</strong><br>
+            WASD — Рух | Пробіл (затиснути) — Безперервні стрибки<br>
+            Мишка — Огляд | Лівий Клік — Стріляти
+        </div>
+        <div id="canvas-container"></div>
+    </div>
+
+    <div id="win-overlay" class="win-overlay hidden">
+        <div class="glow-rays ray-layer-1"></div>
+        <div class="glow-rays ray-layer-2"></div>
+        
+        <div id="win-card-element" class="win-card">
+            <div class="win-title">ВИ ВИБИЛИ:</div>
+            <img id="win-skin-image" src="" alt="Скін" class="win-skin-image">
+            <div id="win-skin-name" class="win-skin-name"></div>
+            <button class="btn" onclick="closeWinWindow()">ЗАБРАТИ</button>
+        </div>
+    </div>
+
+	<div id="case-tooltip" class="case-tooltip"></div>
+	
+    <script src="script.js"></script>
+</body>
+</html>
