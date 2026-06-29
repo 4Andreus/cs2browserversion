@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <title>CS2 JS Edition: Pro Версія</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="menu-screen" class="screen">
+        <h1>CS2 JAVASCRIPT EDITION</h1>
+        <button class="btn" onclick="start3DMatch()" data-i18n="btn_play">ENTER MATCH (3D)</button>
+        <button class="btn" onclick="showScreen('case-screen')" data-i18n="btn_shop">CASE SHOP</button>
+        <button class="btn" onclick="showScreen('inventory-screen')" data-i18n="btn_inventory">WEAPON INVENTORY</button>
+        <div class="menu-balance"><span data-i18n="balance">Balance</span>: $<span class="global-balance">500</span></div>
+    </div>
+
+    <div id="case-screen" class="screen hidden">
+        <h1 data-i18n="btn_shop">CASE SHOP</h1>
+        <div class="shop-balance-box"><span data-i18n="your_balance">Your balance</span>: $<span class="global-balance">500</span></div>
+
+        <div id="case-selection-zone" class="grid">
+            </div>
+
+        <div id="case-opening-zone" class="hidden" style="display: flex; flex-direction: column; align-items: center;">
+            <h2 id="current-opening-case-title" style="color: #de9b35; margin-bottom: 5px;">Case Name</h2>
+            <p id="current-opening-case-price" style="color: #ccc; margin-bottom: 20px;">Ціна: $</p>
+            
+            <div class="roulette-container">
+                <div class="roulette-marker"></div>
+                <div id="roulette-track" class="roulette-track"></div>
+            </div>
+
+            <button class="btn" id="buy-case-btn" onclick="buyCase()" data-i18n="btn_buy">Buy & Open</button>
+            <button class="btn btn-back" onclick="backToCaseSelection()" data-i18n="btn_back_select">Back to selection</button>
+        </div>
+
+        <button id="case-main-back-btn" class="btn btn-back" onclick="showScreen('menu-screen')" data-i18n="btn_back_menu">Back to menu</button>
+    </div>
+
+    <div id="inventory-screen" class="screen hidden">
+        <h1 data-i18n="btn_inventory">WEAPON INVENTORY</h1>
+        <div id="inventory-list" class="grid"></div>
+        <button class="btn btn-back" onclick="showScreen('menu-screen')">Назад</button>
+    </div>
+
+    <div id="match-container" class="hidden">
+        <div id="hud">
+            <div><span data-i18n="enemies">Enemies</span>: <span id="enemies-left">5</span></div>
+            <div><span data-i18n="weapon">Weapon</span>: <span id="current-weapon">Glock-18</span></div>
+            <button class="btn btn-back" style="pointer-events: auto; min-width: auto; padding: 5px 15px;" onclick="exitMatch()" data-i18n="btn_exit">Exit</button>
+    
+        </div>
+        <div id="crosshair"></div>
+        <div id="instructions">
+            <strong data-i18n="controls_title">Controls:</strong><br>
+            <span data-i18n="controls_text">WASD — Move | Space (hold) — Jump<br>Mouse — Look | Left Click — Shoot</span>
+        </div>
+        <div id="canvas-container"></div>
+    </div>
+
+    <div id="win-overlay" class="win-overlay hidden">
+        <div class="glow-rays ray-layer-1"></div>
+        <div class="glow-rays ray-layer-2"></div>
+        
+        <div id="win-card-element" class="win-card">
+            <div class="win-title" data-i18n="you_got">YOU GOT:</div>
+            <img id="win-skin-image" src="" alt="Скін" class="win-skin-image">
+            <div id="win-skin-name" class="win-skin-name"></div>
+            <button class="btn" onclick="closeWinWindow()" data-i18n="btn_take">TAKE</button>
+        </div>
+    </div>
+
+	<div id="case-tooltip" class="case-tooltip"></div>
+
+    <!-- ЕКРАН НАЛАШТУВАНЬ -->
+    <div id="settings-screen" class="screen hidden">
+        <h1 data-i18n="settings_title">SETTINGS</h1>
+        <div class="settings-content">
+            <div class="settings-row">
+                <label data-i18n="vol_label">Shot volume</label>
+                <input type="range" min="0" max="100" value="60" id="volume-slider" oninput="changeVolume(this.value)">
+                <span id="volume-value">60%</span>
+            </div>
+            <div class="settings-row">
+                <label data-i18n="sens_label">Mouse sensitivity</label>
+                <input type="range" min="1" max="10" value="2" id="sensitivity-slider" oninput="changeSensitivity(this.value)">
+                <span id="sensitivity-value">2</span>
+            </div>
+        </div>
+        <div class="settings-row" style="margin-top:10px;">
+            <label data-i18n="lang_label">Language</label>
+            <div style="display:flex; gap:10px;">
+                <button class="btn" style="min-width:80px; padding:8px 15px; font-size:14px;" onclick="playClickSound(); setLanguage('en')" id="lang-en">EN</button>
+                <button class="btn" style="min-width:80px; padding:8px 15px; font-size:14px;" onclick="playClickSound(); setLanguage('uk')" id="lang-uk">UA</button>
+                <button class="btn" style="min-width:80px; padding:8px 15px; font-size:14px;" onclick="playClickSound(); setLanguage('ru')" id="lang-ru">RU</button>
+            </div>
+        </div>
+        <button class="btn btn-back" data-i18n="btn_back" onclick="closeSettings()">Back</button>
+    </div>
+
+    <!-- РАМКА ПРОФІЛЮ -->
+    <div id="profile-overlay" class="profile-overlay hidden" onclick="closeProfile()"></div>
+    <div id="profile-modal" class="profile-modal hidden">
+        <button class="profile-close" onclick="closeProfile()">✕</button>
+
+        <!-- Заголовок (червоний) -->
+        <h2 class="profile-title" data-i18n="profile_title">Your Profile</h2>
+
+        <div class="profile-body">
+            <!-- Аватар (жовтий) -->
+            <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="profile-avatar-preview" onclick="document.getElementById('avatar-input').click()">
+                    <img id="profile-avatar-img" src="images/profile.png" alt="Avatar">
+                    <div class="avatar-plus">＋</div>
+                </div>
+                <input type="file" id="avatar-input" accept="image/*" style="display:none" onchange="changeAvatar(event)">
+            </div>
+
+            <!-- Інфо праворуч -->
+            <div class="profile-info">
+                <!-- Нік (зелений) -->
+                <div class="profile-row">
+                    <span id="profile-nickname">Player</span>
+                    <button class="profile-change-btn" onclick="changeNickname()" data-i18n="btn_change">Change</button>
+                </div>
+                <!-- @нік (блакитний) -->
+                <div class="profile-row profile-row-at">
+                    <span id="profile-at-nickname">@player</span>
+                </div>
+                <!-- ID (синій) -->
+                <div class="profile-row profile-row-id">
+                    <span data-i18n="profile_id">ID:</span>&nbsp;<span id="profile-id-number"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- КНОПКА ПРОФІЛЮ -->
+    <button id="profile-btn" onclick="openProfile()">
+        <img src="images/profile.png" alt="Профіль">
+    </button>
+
+    <!-- КНОПКА НАЛАШТУВАНЬ (показується на всіх екранах крім матчу) -->
+    <button id="settings-btn" onclick="openSettings()">
+        <img src="images/561135.png" alt="Налаштування">
+    </button>
+
+	<script src="script.js"></script>
+</body>
+</html>
